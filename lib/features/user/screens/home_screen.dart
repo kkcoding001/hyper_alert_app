@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../widgets/offer_card.dart';
 import '../../offers/data/dummy_offers.dart';
 import '../../offers/models/offer_model.dart';
+import '../widgets/offer_section.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -63,17 +64,26 @@ class HomeScreen extends StatelessWidget {
                 const SizedBox(height: 20),
 
                 /// Trending Offers
-                _buildOfferSection("Trending Offers", trending),
+                OfferSection(
+                  title: "Trending Offers",
+                  offers: trending,
+                ),
 
                 const SizedBox(height: 20),
 
                 /// Popular Near You
-                _buildOfferSection("Popular Near You", popular),
+                OfferSection(
+                  title: "Popular Near You",
+                  offers: popular,
+                ),
 
                 const SizedBox(height: 20),
 
                 /// From Best Shops
-                _buildOfferSection("From Best Shops", best),
+                OfferSection(
+                  title: "From Best Shops",
+                  offers: best,
+                ),
 
                 const SizedBox(height: 30),
               ],
