@@ -1,20 +1,13 @@
 import 'package:flutter/material.dart';
+import '../../offers/models/offer_model.dart';
 import '../screens/store_offer_screen.dart';
 
 class OfferCard extends StatelessWidget {
-  final String imageUrl;
-  final String title;
-  final String location;
-  final String distance;
-  final String discount;
+  final OfferModel offer;
 
   const OfferCard({
     super.key,
-    required this.imageUrl,
-    required this.title,
-    required this.location,
-    required this.distance,
-    required this.discount,
+    required this.offer,
   });
 
   @override
@@ -25,7 +18,7 @@ class OfferCard extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (_) => StoreOfferScreen(
-              storeName: title,
+              storeName: offer.storeName,
             ),
           ),
         );
@@ -42,14 +35,13 @@ class OfferCard extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: Image.asset(
-                    imageUrl,
+                    offer.imageUrl,
                     height: 120,
                     width: 230,
                     fit: BoxFit.cover,
                   ),
                 ),
 
-                /// Full-width discount tag
                 Positioned(
                   bottom: 0,
                   left: 0,
@@ -67,7 +59,7 @@ class OfferCard extends StatelessWidget {
                       ),
                     ),
                     child: Text(
-                      discount,
+                      "${offer.discount}% off",
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 13,
@@ -83,7 +75,7 @@ class OfferCard extends StatelessWidget {
 
             /// Shop name
             Text(
-              title,
+              offer.title,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 14,
@@ -97,7 +89,7 @@ class OfferCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  location,
+                  offer.location,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
@@ -109,7 +101,7 @@ class OfferCard extends StatelessWidget {
                 const SizedBox(height: 2),
 
                 Text(
-                  distance,
+                  offer.distance,
                   style: const TextStyle(
                     color: Colors.black,
                     fontSize: 12,

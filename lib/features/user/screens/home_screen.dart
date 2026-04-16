@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 
 import '../widgets/offer_card.dart';
-import '../widgets/offer_section.dart';
-
-
+import '../../offers/data/dummy_offers.dart';
+import '../../offers/models/offer_model.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+
+    final trending = trendingOffers;
+    final popular = popularOffers;
+    final best = bestShopOffers;
+
     return Scaffold(
       backgroundColor: Colors.white,
-
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -26,15 +29,15 @@ class HomeScreen extends StatelessWidget {
                 /// Header
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
+                  children: const [
+                    Text(
                       "Local Deals",
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const Icon(Icons.tune),
+                    Icon(Icons.tune),
                   ],
                 ),
 
@@ -59,95 +62,20 @@ class HomeScreen extends StatelessWidget {
 
                 const SizedBox(height: 20),
 
-                // Offers
-                // offer section (list) -> offer card
-                OfferSection(
-                  title: "Trending Offers",
-                  offers: const [
-                    OfferCard(
-                      imageUrl: "assets/images/offers/offer3.png",
-                      title: "Coffee Corner",
-                      location: "Colaba Causeway Market,Mumbai",
-                      distance: "1 km away",
-                      discount: "20% off",
-                    ),
-                    OfferCard(
-                      imageUrl: "assets/images/offers/offer2.png",
-                      title: "Book Haven",
-                      location: "Near, Powai Lake, Mumbai",
-                      distance: "1.5 km away",
-                      discount: "15% off",
-                    ),
-                    OfferCard(
-                      imageUrl: "assets/images/offers/offer4.png",
-                      title: "Coffee Corner",
-                      location: "Mumbai",
-                      distance: "1 km away",
-                      discount: "20% off",
-                    ),
-                  ],
-                ),
+                /// Trending Offers
+                _buildOfferSection("Trending Offers", trending),
 
                 const SizedBox(height: 20),
 
-                OfferSection(
-                  title: "Popular Near You",
-                  offers: const [
-                    OfferCard(
-                      imageUrl: "assets/images/offers/offer2.png",
-                      title: "Pizza Hub",
-                      location: "opp. Siddhivinayak Temple, Mumbai",
-                      distance: "0.8 km away",
-                      discount: "25% off",
-                    ),
-                    OfferCard(
-                      imageUrl: "assets/images/offers/offer4.png",
-                      title: "Fashion Store",
-                      location: "opp. ISKCON temple, Mumbai",
-                      distance: "2 km away",
-                      discount: "30% off",
-                    ),
-                    OfferCard(
-                      imageUrl: "assets/images/offers/offer3.png",
-                      title: "Fashion Store",
-                      location: "Mumbai",
-                      distance: "2 km away",
-                      discount: "30% off",
-                    ),
-                  ],
-                ),
+                /// Popular Near You
+                _buildOfferSection("Popular Near You", popular),
 
                 const SizedBox(height: 20),
 
-                OfferSection(
-                  title: "From Best Shops",
-                  offers: const [
-                    OfferCard(
-                      imageUrl: "assets/images/offers/offer4.png",
-                      title: "Electro Mart",
-                      location: "opp. ISKCON temple, Mumbai",
-                      distance: "3 km away",
-                      discount: "10% off",
-                    ),
-                    OfferCard(
-                      imageUrl: "assets/images/offers/offer2.png",
-                      title: "Book World",
-                      location: "Colaba Causeway Market,Mumbai",
-                      distance: "2.5 km away",
-                      discount: "15% off",
-                    ),
-                    OfferCard(
-                      imageUrl: "assets/images/offers/offer3.png",
-                      title: "Book World",
-                      location: "Mumbai",
-                      distance: "0.5 km away",
-                      discount: "15% off",
-                    ),
-                  ],
-                ),
+                /// From Best Shops
+                _buildOfferSection("From Best Shops", best),
 
                 const SizedBox(height: 30),
-
               ],
             ),
           ),
@@ -156,8 +84,8 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  /// Temporary section block
-  Widget _sectionPlaceholder(String title) {
+  /// Reusable Offer Section
+  Widget _buildOfferSection(String title, List<OfferModel> offers) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -169,14 +97,22 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 12),
-        Container(
-          height: 120,
-          decoration: BoxDecoration(
-            color: Colors.grey.shade300,
-            borderRadius: BorderRadius.circular(12),
+
+        SizedBox(
+          height: 200,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: offers.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(right: 12),
+                child: OfferCard(
+                  offer: offers[index],
+                ),
+              );
+            },
           ),
         ),
-        const SizedBox(height: 20),
       ],
     );
   }
